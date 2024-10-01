@@ -1,0 +1,41 @@
+# Node modules
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Environment variables
+.env
+
+# Mac OS specific files
+.DS_Store
+
+# Coverage reports
+coverage/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor specific files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log
+
+# Ignore React testing snapshot files
+*.snap
+
+# Ignore generated files by JetBrains IDEs
+*.iml
+out/
+
+# Ignore ESLint cache
+.eslintcache
+
+# Ignore TypeScript build outputs (if using TypeScript)
+*.tsbuildinfo
