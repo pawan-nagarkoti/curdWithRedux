@@ -61,20 +61,23 @@ export default function Table() {
                 </td>
               </tr>
             ) : (
-              data?.map((v, index) => (
-                <tr key={index}>
-                  <td>{v.id}</td>
-                  <td>{v.name}</td>
-                  <td>{v.email}</td>
-                  <td>{v.phone}</td>
-                  <td>{v.address.zipcode}</td>
-                  <td>{v.address.city}</td>
-                  <td>
-                    <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
-                    <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" onClick={() => handleDeletUserRecord(v.id)} />
-                  </td>
-                </tr>
-              ))
+              data
+                ?.slice() // Create a shallow copy of the data array
+                .reverse() // Reverse the copied array
+                ?.map((v, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td> {/* Keep index ascending */}
+                    <td>{v.name}</td>
+                    <td>{v.email}</td>
+                    <td>{v.phone}</td>
+                    <td>{v.address.zipcode}</td>
+                    <td>{v.address.city}</td>
+                    <td>
+                      <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
+                      <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" onClick={() => handleDeletUserRecord(v.id)} />
+                    </td>
+                  </tr>
+                ))
             )}
           </tbody>
         </table>
