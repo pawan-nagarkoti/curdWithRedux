@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { editIcon, deleteIcon } from "../../assets";
 import "./table.scss";
 import { useModal } from "../../services/hook/modalContext";
-import { CommonModal } from "../modal/index";
 import { subHeading, tableHeading } from "../../util/constant";
 import { useSelector, useDispatch } from "react-redux";
 import { Loading } from "../../util/Loading";
 import { userDetail } from "../../services/store/features/apiData";
 
 export default function Table() {
-  const { modalShow, handleClose, handleShow } = useModal();
+  const { handleShow } = useModal();
   const userData = useSelector((state) => state.apiData.value);
   const [data, setData] = useState(userData);
   const dispatch = useDispatch();
@@ -31,35 +30,6 @@ export default function Table() {
       <button className="btn btn-primary mt-5" onClick={() => handleShow()}>
         Add User Record +
       </button>
-
-      {/* common popup modal */}
-      <CommonModal show={modalShow} handleClose={handleClose}>
-        <form>
-          <div className="form-group mb-4">
-            <label for="nameBox">Name</label>
-            <input type="text" className="form-control" id="nameBox" placeholder="Enter Name" />
-          </div>
-          <div className="form-group mb-4">
-            <label for="emailbox">Email address</label>
-            <input type="email" className="form-control" id="emailbox" placeholder="Enter email" />
-          </div>
-          <div className="form-group mb-4">
-            <label for="phoneBox">Phone</label>
-            <input type="number" className="form-control" id="phoneBox" placeholder="Enter Phone" />
-          </div>
-          <div className="input-group mb-3">
-            <div className="input-group-prepend">
-              <span className="input-group-text" id="basic-addon1">
-                @
-              </span>
-            </div>
-            <input type="text" className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-      </CommonModal>
 
       {/* Table  */}
       <div className="table-responsive text-center">
