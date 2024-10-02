@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { editIcon, deleteIcon } from "../../assets";
 import "./table.scss";
 import { useModal } from "../../services/hook/modalContext";
@@ -6,10 +6,24 @@ import { CommonModal } from "../modal/index";
 import { tableHeading } from "../../util/constant";
 import { useSelector, useDispatch } from "react-redux";
 import { Loading } from "../../util/Loading";
+import { userDetail } from "../../services/store/features/apiData";
 
 export default function Table() {
   const { modalShow, handleClose, handleShow } = useModal();
   const userData = useSelector((state) => state.apiData.value);
+  const [data, setData] = useState(userData);
+  const dispatch = useDispatch();
+
+  const handleDeletUserRecord = (id) => {
+    const updatedData = userData?.filter((v) => v.id !== id);
+    setData(updatedData); // Update the state with filtered data
+    dispatch(userDetail(updatedData));
+  };
+
+  // Sync data with userData whenever it changes
+  useEffect(() => {
+    setData(userData);
+  }, [userData]);
 
   return (
     <>
@@ -23,15 +37,23 @@ export default function Table() {
         <form>
           <div className="form-group mb-4">
             <label for="nameBox">Name</label>
-            <input type="text" className="form-control" id="nameBox" aria-describedby="emailHelp" placeholder="Enter email" />
+            <input type="text" className="form-control" id="nameBox" placeholder="Enter Name" />
           </div>
           <div className="form-group mb-4">
             <label for="emailbox">Email address</label>
-            <input type="email" className="form-control" id="emailbox" aria-describedby="emailHelp" placeholder="Enter email" />
+            <input type="email" className="form-control" id="emailbox" placeholder="Enter email" />
           </div>
           <div className="form-group mb-4">
             <label for="phoneBox">Phone</label>
-            <input type="password" className="form-control" id="phoneBox" placeholder="Password" />
+            <input type="number" className="form-control" id="phoneBox" placeholder="Enter Phone" />
+          </div>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="basic-addon1">
+                @
+              </span>
+            </div>
+            <input type="text" className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
           </div>
           <button type="submit" className="btn btn-primary">
             Submit
@@ -50,14 +72,14 @@ export default function Table() {
             </tr>
           </thead>
           <tbody>
-            {userData.length === 0 ? (
+            {data.length === 0 ? (
               <tr>
                 <td colSpan="6" className="loading-css-alignment">
                   <Loading />
                 </td>
               </tr>
             ) : (
-              userData?.map((v, index) => (
+              data?.map((v, index) => (
                 <tr key={index}>
                   <td>{v.id}</td>
                   <td>{v.name}</td>
@@ -69,7 +91,7 @@ export default function Table() {
                   </td>
                   <td>
                     <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
-                    <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" />
+                    <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" onClick={() => handleDeletUserRecord(v.id)} />
                   </td>
                 </tr>
               ))
