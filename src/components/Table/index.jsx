@@ -4,9 +4,14 @@ import "./table.scss";
 import { useModal } from "../../services/hook/modalContext";
 import { CommonModal } from "../modal/index";
 import { tableHeading } from "../../util/constant";
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, increment } from "../../services/store/features/apiData";
 
 export default function Table() {
   const { modalShow, handleClose, handleShow } = useModal();
+  const count = useSelector((state) => state.apiData.value);
+  console.log(count);
+  const dispatch = useDispatch();
 
   return (
     <>
