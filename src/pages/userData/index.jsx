@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CommonModal } from "../../components/modal";
 import { useModal } from "../../services/hook/modalContext";
 import Input from "../../components/Input";
-import { userDetail } from "../../services/store/features/apiData";
+import { userDetail, getEditUserId } from "../../services/store/features/apiData";
 
 export default function UserData() {
   const { showToast } = useToast();
@@ -14,6 +14,8 @@ export default function UserData() {
 
   const { modalShow, handleClose, handleShow } = useModal();
   const userData = useSelector((state) => state.apiData.value);
+  const editUserId = useSelector((state) => state.apiData.userId);
+
   const [data, setData] = useState(userData);
 
   const [formData, setFormData] = useState({
@@ -65,24 +67,43 @@ export default function UserData() {
   const handleUserFormData = (e) => {
     e.preventDefault();
 
-    // Create a new user object from form data
-    const newUser = {
-      id: data.length + 1, // Generate new ID (or you can use a proper unique ID method)
-      name: formData.Name,
-      email: formData.Email,
-      phone: formData.Phone,
-      address: {
-        zipcode: formData.Zipcode,
-        city: formData.City,
-      },
-    };
+    if (editUserId) {
+      // Update existing user
+      const updatedData = data.map((user) =>
+        user.id === editUserId
+          ? {
+              ...user, // Keep other fields intact
+              name: formData.Name,
+              email: formData.Email,
+              phone: formData.Phone,
+              address: {
+                zipcode: formData.Zipcode,
+                city: formData.City,
+              },
+            }
+          : user
+      );
 
-    // Update the local state
-    const updatedData = [...data, newUser];
-    setData(updatedData);
+      setData(updatedData);
+      dispatch(userDetail(updatedData)); // Dispatch updated data to Redux
+      dispatch(getEditUserId(null)); // Dispatch updated data to Redux
+    } else {
+      // Create a new user object from form data
+      const newUser = {
+        id: data.length + 1, // Generate new ID
+        name: formData.Name,
+        email: formData.Email,
+        phone: formData.Phone,
+        address: {
+          zipcode: formData.Zipcode,
+          city: formData.City,
+        },
+      };
 
-    // Dispatch the updated data to the Redux store
-    dispatch(userDetail(updatedData));
+      const updatedData = [...data, newUser];
+      setData(updatedData);
+      dispatch(userDetail(updatedData)); // Dispatch new data to Redux
+    }
 
     // Reset form fields
     setFormData({
@@ -93,9 +114,22 @@ export default function UserData() {
       City: "",
     });
 
-    // Close the modal
-    handleClose();
+    handleClose(); // Close modal after submitting
   };
+
+  useEffect(() => {
+    if (editUserId) {
+      const userData = data?.filter((v) => v.id === editUserId);
+      setFormData({
+        Name: userData[0]?.name,
+        Email: userData[0]?.email,
+        Phone: userData[0]?.phone,
+        Zipcode: userData[0]?.address?.zipcode,
+        City: userData[0]?.address?.city,
+      });
+      handleShow();
+    }
+  }, [editUserId]);
 
   return (
     <>
@@ -119,7 +153,7 @@ export default function UserData() {
           <Input
             name="Phone"
             placeholder="Enter phone"
-            type="number"
+            type="text"
             value={formData.Phone} // Bind value from state
             onChange={handleInputChange} // Handle input changes
           />

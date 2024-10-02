@@ -5,7 +5,7 @@ import { useModal } from "../../services/hook/modalContext";
 import { subHeading, tableHeading } from "../../util/constant";
 import { useSelector, useDispatch } from "react-redux";
 import { Loading } from "../../util/Loading";
-import { userDetail } from "../../services/store/features/apiData";
+import { userDetail, getEditUserId } from "../../services/store/features/apiData";
 
 export default function Table() {
   const { handleShow } = useModal();
@@ -23,6 +23,11 @@ export default function Table() {
   useEffect(() => {
     setData(userData);
   }, [userData]);
+
+  // Get edit record id and save to redux
+  const handleEditUserRecord = (id) => {
+    dispatch(getEditUserId(id));
+  };
 
   return (
     <>
@@ -73,7 +78,7 @@ export default function Table() {
                     <td>{v.address.zipcode}</td>
                     <td>{v.address.city}</td>
                     <td>
-                      <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
+                      <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" onClick={() => handleEditUserRecord(v.id)} /> &nbsp;
                       <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" onClick={() => handleDeletUserRecord(v.id)} />
                     </td>
                   </tr>
