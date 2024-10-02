@@ -1,9 +1,9 @@
 import axios from "axios";
-import { appUrl } from "./constant";
+import { apiUrl } from "./constant";
 
 // Create an Axios instance
 const apiClient = axios.create({
-  baseURL: appUrl,
+  baseURL: apiUrl,
 });
 
 // Define common API methods

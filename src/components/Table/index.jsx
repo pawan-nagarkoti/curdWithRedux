@@ -3,6 +3,8 @@ import { editIcon, deleteIcon } from "../../assets";
 import "./table.scss";
 import { useModal } from "../../services/hook/modalContext";
 import { CommonModal } from "../modal/index";
+import { tableHeading } from "../../util/constant";
+
 export default function Table() {
   const { modalShow, handleClose, handleShow } = useModal();
 
@@ -39,12 +41,9 @@ export default function Table() {
         <table className="table table-bordered table-hover mt-3">
           <thead className="table-dark">
             <tr>
-              <th scope="col">id</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
-              <th scope="col">City with zip code</th>
-              <th scope="col">Action</th>
+              {tableHeading?.map((v, index) => (
+                <th key={index}>{v}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
