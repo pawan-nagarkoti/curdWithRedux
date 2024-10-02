@@ -31,11 +31,6 @@ export default function Table() {
 
   return (
     <>
-      {/* Adde new user record */}
-      <button className="btn btn-primary mt-5" onClick={() => handleShow()}>
-        Add User Record +
-      </button>
-
       {/* Table  */}
       <div className="table-responsive text-center">
         <table className="table table-bordered table-hover mt-3">

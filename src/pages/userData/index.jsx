@@ -131,8 +131,25 @@ export default function UserData() {
     }
   }, [editUserId]);
 
+  // add user record
+  const handleAddUserRecord = () => {
+    setFormData({
+      Name: "",
+      Email: "",
+      Phone: "",
+      Zipcode: "",
+      City: "",
+    });
+    handleShow();
+  };
+
   return (
     <>
+      {/* Adde new user record */}
+      <button className="btn btn-primary mt-5" onClick={handleAddUserRecord}>
+        Add User Record +
+      </button>
+
       {/* common popup modal */}
       <CommonModal show={modalShow} handleClose={handleClose}>
         <form onSubmit={handleUserFormData}>
