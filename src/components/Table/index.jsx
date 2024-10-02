@@ -3,7 +3,7 @@ import { editIcon, deleteIcon } from "../../assets";
 import "./table.scss";
 import { useModal } from "../../services/hook/modalContext";
 import { CommonModal } from "../modal/index";
-import { tableHeading } from "../../util/constant";
+import { subHeading, tableHeading } from "../../util/constant";
 import { useSelector, useDispatch } from "react-redux";
 import { Loading } from "../../util/Loading";
 import { userDetail } from "../../services/store/features/apiData";
@@ -64,13 +64,25 @@ export default function Table() {
       {/* Table  */}
       <div className="table-responsive text-center">
         <table className="table table-bordered table-hover mt-3">
-          <thead className="table-dark">
+          <thead>
             <tr>
-              {tableHeading?.map((v, index) => (
-                <th key={index}>{v}</th>
+              {tableHeading.map((heading) => (
+                <th key={heading.id} colSpan={heading.colSpan}>
+                  {heading.label}
+                </th>
               ))}
             </tr>
+            <tr>
+              <th colSpan="4"></th>
+              {subHeading.map((sub) => (
+                <th key={sub.id} colSpan={sub.colSpan}>
+                  {sub.label}
+                </th>
+              ))}
+              <th></th> {/* Empty for Action */}
+            </tr>
           </thead>
+
           <tbody>
             {data.length === 0 ? (
               <tr>
@@ -85,10 +97,8 @@ export default function Table() {
                   <td>{v.name}</td>
                   <td>{v.email}</td>
                   <td>{v.phone}</td>
-                  <td>
-                    {v.address.zipcode} &nbsp;
-                    {v.address.city}
-                  </td>
+                  <td>{v.address.zipcode}</td>
+                  <td>{v.address.city}</td>
                   <td>
                     <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
                     <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" onClick={() => handleDeletUserRecord(v.id)} />
