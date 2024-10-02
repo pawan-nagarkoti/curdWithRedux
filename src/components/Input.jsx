@@ -7,7 +7,7 @@ export default function Input({ name = "", placeholder = "", type = "text", valu
       <label htmlFor={id} className="mb-2">
         {name}
       </label>
-      <input type={type} className="form-control" id={id} name={name} placeholder={placeholder} value={value} onChange={onChange} />
+      <input type={type} className="form-control" id={id} name={name} placeholder={placeholder} value={value} onChange={onChange} required />
     </div>
   );
 }
