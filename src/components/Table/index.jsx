@@ -8,10 +8,33 @@ export default function Table() {
 
   return (
     <>
+      {/* Adde new user record */}
       <button className="btn btn-primary mt-5" onClick={() => handleShow()}>
         Add User Record +
       </button>
-      <CommonModal show={modalShow} handleClose={handleClose} />
+
+      {/* common popup modal */}
+      <CommonModal show={modalShow} handleClose={handleClose}>
+        <form>
+          <div className="form-group mb-4">
+            <label for="nameBox">Name</label>
+            <input type="text" className="form-control" id="nameBox" aria-describedby="emailHelp" placeholder="Enter email" />
+          </div>
+          <div className="form-group mb-4">
+            <label for="emailbox">Email address</label>
+            <input type="email" className="form-control" id="emailbox" aria-describedby="emailHelp" placeholder="Enter email" />
+          </div>
+          <div className="form-group mb-4">
+            <label for="phoneBox">Phone</label>
+            <input type="password" className="form-control" id="phoneBox" placeholder="Password" />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </CommonModal>
+
+      {/* Table  */}
       <div className="table-responsive text-center">
         <table className="table table-bordered table-hover mt-3">
           <thead className="table-dark">

@@ -8,13 +8,6 @@ export const CommonModal = ({ show, handleClose, title, children }) => {
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="primary">Save changes</Button>
-      </Modal.Footer>
     </Modal>
   );
 };
