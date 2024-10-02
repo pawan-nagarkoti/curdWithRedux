@@ -5,12 +5,11 @@ import { useModal } from "../../services/hook/modalContext";
 import { CommonModal } from "../modal/index";
 import { tableHeading } from "../../util/constant";
 import { useSelector, useDispatch } from "react-redux";
+import { Loading } from "../../util/Loading";
 
 export default function Table() {
   const { modalShow, handleClose, handleShow } = useModal();
-  const count = useSelector((state) => state.apiData.value);
-  console.log(count);
-  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.apiData.value);
 
   return (
     <>
@@ -51,41 +50,30 @@ export default function Table() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>mark @gmail.com</td>
-              <td>123-1233-2323</td>
-              <td>Ramnagar</td>
-              <td>
-                <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
-                <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" />
-              </td>
-            </tr>
-
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>mark @gmail.com</td>
-              <td>123-1233-2323</td>
-              <td>Ramnagar</td>
-              <td>
-                <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
-                <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" />
-              </td>
-            </tr>
-
-            <tr>
-              <th>1</th>
-              <td>Mark</td>
-              <td>mark @gmail.com</td>
-              <td>123-1233-2323</td>
-              <td>Ramnagar</td>
-              <td>
-                <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
-                <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" />
-              </td>
-            </tr>
+            {userData.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="loading-css-alignment">
+                  <Loading />
+                </td>
+              </tr>
+            ) : (
+              userData?.map((v, index) => (
+                <tr key={index}>
+                  <td>{v.id}</td>
+                  <td>{v.name}</td>
+                  <td>{v.email}</td>
+                  <td>{v.phone}</td>
+                  <td>
+                    {v.address.zipcode} &nbsp;
+                    {v.address.city}
+                  </td>
+                  <td>
+                    <img src={editIcon} alt="edit-icon" className="icon-size" title="edit" /> &nbsp;
+                    <img src={deleteIcon} alt="delete-icon" className="icon-size" title="delete" />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
